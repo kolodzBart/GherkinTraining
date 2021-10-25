@@ -1,0 +1,26 @@
+User stories:
+
+As a administrator
+I want to be able impose restrictions on accounts from specific countries
+so that the user from restricted country will be blocked after logging in
+
+As a user from restricted country 
+I want to logging 
+
+scenario:
+
+Given the Country 'Rosja' is restricted by administrator 
+And as I user from Russia open the loggin page
+And I loggin 
+Then I Should see blocked window
+
+Acceptance criteria:
+SLA
+performance
+
+
+ubijanie drivera i wszystkich otwratych procesów z odpalania automatów
+taskkill /f /im chromedriver.exe
+
+kontakt
+vojin.popovic@svea.com
