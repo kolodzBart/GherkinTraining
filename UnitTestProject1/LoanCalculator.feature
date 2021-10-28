@@ -1,6 +1,6 @@
 ﻿Feature: LoanCalculator
 	As a user 
-	I want to chach the bank calculation
+	I want to check the bank calculation
 	So that I know wich offer to pick
 
 Scenario: Calculate personal loan
