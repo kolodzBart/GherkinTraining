@@ -11,3 +11,12 @@ Scenario: Calculate personal loan
 	And I click the calculate button
 	Then the monthy pay is calculated
 	And number sof months is correct
+
+
+Scenario: Calculate auto loan
+	Given that the auto loan calculator is open
+	When the amount is set
+	And the rait is set 
+	And the auto loan term is set
+	And I click the calculate button
+	Then the monthy pay is calculated

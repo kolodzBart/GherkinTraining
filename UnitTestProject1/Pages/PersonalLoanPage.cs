@@ -2,7 +2,7 @@
 
 namespace UnitTestProject1.Pages
 {
-    public class PersonalLoanPage
+    public class PersonalLoanPage : BaseLoanPage
     {
         public By LoanTermYears
         {
@@ -12,36 +12,12 @@ namespace UnitTestProject1.Pages
             }
         }
 
-        public By LoanAmount
+        public By NumberOfMonths
         {
             get
             {
-                return By.Id("cloanamount");
+                return By.XPath("//td[contains(text(),'Loan Payment')]");
             }
-        }
-
-        public By InterestRate
-        {
-            get
-            {
-                return By.Id("cinterestrate");
-            }
-        }
-
-        public By CalculateButton
-        {
-            get
-            {
-                return By.XPath("//input[@value='Calculate']");
-            }
-        }
-
-        public By MonthlyPay
-        {
-            get
-            {
-                return By.XPath("//h2[@class='h2result']");
-            }
-        }
+         }
     }
 }
