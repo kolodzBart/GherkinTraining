@@ -35,5 +35,13 @@ namespace UnitTestProject1.Pages
                 return By.XPath("//h2[@class='h2result']");
             }
         }
+
+        public By ErrorMessage
+        {
+            get
+            {
+                return By.XPath("//font[@color='red']");
+            }
+        }
     }
 }

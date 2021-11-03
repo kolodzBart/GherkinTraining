@@ -3,13 +3,13 @@
 	I want to check the bank calculation
 	So that I know wich offer to pick
 
-Scenario: Calculate personal loan
+Scenario Outline: Calculate personal loan
 	Given that the personal loan calculator is open
-	When the amount is set
-	And the rait is set 
-	And the loan term is set
+	When the amount is set <amount>
+	And the rait is set <rait>
+	And the loan term is set <term>
 	And I click the calculate button
-	Then the monthy pay is calculated
+	Then the monthy pay is calculated <pay>
 	And number sof months is correct
 
 

@@ -25,6 +25,32 @@ namespace UnitTestProject1
             SeleniumHelper.Browser.Quit();
         }
 
+        [When(@"the amount is set (.*)")]
+        public void WhenTheAmountIsSet(string amount)
+        {
+            CalculatorNet.PersonalLoan.LoanAmount.Clear();
+            CalculatorNet.PersonalLoan.LoanAmount.SendKeys("5000");
+        }
+
+        [When(@"the rait is set (.*)")]
+        public void WhenTheRaitIsSet(string rait)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [When(@"the loan term is set (.*)")]
+        public void WhenTheLoanTermIsSet(string term)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"the monthy pay is calculated (.*)")]
+        public void ThenTheMonthyPayIsCalculated(string pay)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+
 
         [Given(@"that the personal loan calculator is open")]
         public void GivenThatThePersonalLoanCalculatorIsOpen()
@@ -35,28 +61,27 @@ namespace UnitTestProject1
         [When(@"the amount is set")]
         public void WhenTheAmountIsSet()
         {
-            SeleniumHelper.Browser.FindElement(CalculatorNet.PersonalLoan.LoanAmount).Clear();
-            SeleniumHelper.Browser.FindElement(CalculatorNet.PersonalLoan.LoanAmount).SendKeys("5000");
+            
         }
         
         [When(@"the rait is set")]
         public void WhenTheRaitIsSet()
         {
-            SeleniumHelper.Browser.FindElement(CalculatorNet.PersonalLoan.InterestRate).Clear();
-            SeleniumHelper.Browser.FindElement(CalculatorNet.PersonalLoan.InterestRate).SendKeys("5");
+            CalculatorNet.PersonalLoan.InterestRate.Clear();
+            CalculatorNet.PersonalLoan.InterestRate.SendKeys("5");
         }
         
         [When(@"the loan term is set")]
         public void WhenTheLoanTermIsSet()
         {
-            SeleniumHelper.Browser.FindElement(CalculatorNet.PersonalLoan.LoanTermYears).Clear();
-            SeleniumHelper.Browser.FindElement(CalculatorNet.PersonalLoan.LoanTermYears).SendKeys("5");
+            CalculatorNet.PersonalLoan.LoanTermYears.Clear();
+            CalculatorNet.PersonalLoan.LoanTermYears.SendKeys("5");
         }
         
         [When(@"I click the calculate button")]
         public void WhenIClickTheCalculateButton()
         {
-            SeleniumHelper.Browser.FindElement(CalculatorNet.PersonalLoan.CalculateButton).Click();
+            CalculatorNet.PersonalLoan.CalculateButton.Click();
         }
         
         [Then(@"the monthy pay is calculated")]
@@ -65,7 +90,7 @@ namespace UnitTestProject1
             var pay = SeleniumHelper.Browser.FindElement(CalculatorNet.PersonalLoan.MonthlyPay).Text;
             //var message = "Expected: 95,59 but we get" + pay + months;
             Assert.IsTrue(pay.Contains("94.36"));
-            
+            Assert.IsNull(CalculatorNet.PersonalLoan.ErrorMessage.TryFindElement());
         }
         
         [Then(@"number sof months is correct")]
@@ -84,8 +109,8 @@ namespace UnitTestProject1
         [When(@"the auto loan term is set")]
         public void WhenTheAutoLoanTermIsSet()
         {
-            SeleniumHelper.Browser.FindElement(CalculatorNet.AutoLoan.LoanTermMonths).Clear();
-            SeleniumHelper.Browser.FindElement(CalculatorNet.AutoLoan.LoanTermMonths).SendKeys("5");
+            CalculatorNet.AutoLoan.LoanTermMonths.Clear();
+            CalculatorNet.AutoLoan.LoanTermMonths.SendKeys("5");
         }
 
     }
