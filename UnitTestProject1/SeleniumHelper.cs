@@ -5,11 +5,6 @@ namespace UnitTestProject1
 {
     public class SeleniumHelper
     {
-        public SeleniumHelper()
-        {
-            Browser = new ChromeDriver();
-        }
-
         public static IWebDriver Browser { get; set; }
     }
 }
