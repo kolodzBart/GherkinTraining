@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium.Chrome;
 using System;
 using TechTalk.SpecFlow;
 using UnitTestProject1.Pages;
@@ -8,57 +9,93 @@ namespace UnitTestProject1
     [Binding]
     public class LoanCalculatorSteps
     {
-        private PersonalLoanPage PersonalLoan { get; set;}
-        private SeleniumHelper SeleniumHelper { get; set; }
+        private static CalculatorNet CalculatorNet { get; set; }
+
+        [BeforeFeature]
+        public static void BeforeAppFeature()
+        {
+            SeleniumHelper.Browser = new ChromeDriver();
+            SeleniumHelper.Browser.Manage().Window.Maximize();
+            CalculatorNet = new CalculatorNet();
+        }
+
+        [AfterFeature]
+        public static void AfterAppFeature()
+        {
+            SeleniumHelper.Browser.Quit();
+        }
+
+        [When(@"the amount is set (.*)")]
+        public void WhenTheAmountIsSet(string amount)
+        {
+            CalculatorNet.PersonalLoan.LoanAmount.Clear();
+            CalculatorNet.PersonalLoan.LoanAmount.SendKeys(amount);
+        }
+
+        [When(@"the rait is set (.*)")]
+        public void WhenTheRaitIsSet(string rait)
+        {
+            CalculatorNet.PersonalLoan.InterestRate.Clear();
+            CalculatorNet.PersonalLoan.InterestRate.SendKeys(rait);
+        }
+
+        [When(@"the loan term is set (.*)")]
+        public void WhenTheLoanTermIsSet(string term)
+        {
+            CalculatorNet.PersonalLoan.LoanTermYears.Clear();
+            CalculatorNet.PersonalLoan.LoanTermYears.SendKeys(term);
+        }
+
+        [Then(@"the monthy pay is calculated (.*)")]
+        public void ThenTheMonthyPayIsCalculated(string pay)
+        {
+            var payText = SeleniumHelper.Browser.FindElement(CalculatorNet.PersonalLoan.MonthlyPay).Text;
+            //var message = "Expected: 95,59 but we get" + pay + months;
+            Assert.IsTrue(payText.Contains(pay));
+            Assert.IsNull(CalculatorNet.PersonalLoan.ErrorMessage.TryFindElement(1));
+        }
+
+
 
         [Given(@"that the personal loan calculator is open")]
         public void GivenThatThePersonalLoanCalculatorIsOpen()
         {
-            SeleniumHelper = new SeleniumHelper();
             SeleniumHelper.Browser.Navigate().GoToUrl("https://www.calculator.net/personal-loan-calculator.html");
         }
-        
-        [When(@"the amount is set")]
-        public void WhenTheAmountIsSet()
-        {
-            PersonalLoan = new PersonalLoanPage();
-            SeleniumHelper.Browser.FindElement(PersonalLoan.LoanAmount).Clear();
-            SeleniumHelper.Browser.FindElement(PersonalLoan.LoanAmount).SendKeys("5000");
-        }
-        
-        [When(@"the rait is set")]
-        public void WhenTheRaitIsSet()
-        {
-            SeleniumHelper.Browser.FindElement(PersonalLoan.InterestRate).Clear();
-            SeleniumHelper.Browser.FindElement(PersonalLoan.InterestRate).SendKeys("5");
-        }
-        
-        [When(@"the loan term is set")]
-        public void WhenTheLoanTermIsSet()
-        {
-            SeleniumHelper.Browser.FindElement(PersonalLoan.LoanTermYears).Clear();
-            SeleniumHelper.Browser.FindElement(PersonalLoan.LoanTermYears).SendKeys("5");
-        }
-        
+   
         [When(@"I click the calculate button")]
         public void WhenIClickTheCalculateButton()
         {
-            SeleniumHelper.Browser.FindElement(PersonalLoan.CalculateButton).Click();
+            CalculatorNet.PersonalLoan.CalculateButton.Click();
         }
-        
-        [Then(@"the monthy pay is calculated")]
-        public void ThenTheMonthyPayIsCalculated()
-        {
-            var pay = SeleniumHelper.Browser.FindElement(PersonalLoan.MonthlyPay).Text;
-            Assert.IsTrue(pay.Contains("94.36"));
-        }
-        
+             
         [Then(@"number sof months is correct")]
         public void ThenNumberSofMonthsIsCorrect()
         {
-            var pay = SeleniumHelper.Browser.FindElement(PersonalLoan.MonthlyPay).Text;
-            Assert.IsTrue(pay.Contains("94.36"));
-            SeleniumHelper.Browser.Quit();
+            var months = SeleniumHelper.Browser.FindElement(CalculatorNet.PersonalLoan.NumberOfMonths).Text;
+            Assert.IsTrue(months.Contains("60"));
         }
+
+        [Given(@"that the auto loan calculator is open")]
+        public void GivenThatTheAutoLoanCalculatorIsOpen()
+        {
+            SeleniumHelper.Browser.Navigate().GoToUrl("https://www.calculator.net/auto-loan-calculator.html");
+        }
+
+        [When(@"the auto loan term is set")]
+        public void WhenTheAutoLoanTermIsSet()
+        {
+            CalculatorNet.AutoLoan.LoanTermMonths.Clear();
+            CalculatorNet.AutoLoan.LoanTermMonths.SendKeys("5");
+        }
+
+        [Then(@"An error message is displayed (.*)")]
+        public void ThenAnErrorMessageIsDisplayed(string message)
+        {
+            var error = SeleniumHelper.Browser.FindElement(CalculatorNet.PersonalLoan.ErrorMessage).Text;
+            Assert.AreEqual(message, error);
+        }
+
     }
+
 }
